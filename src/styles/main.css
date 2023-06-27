@@ -1,0 +1,62 @@
+html {
+  /* 字体 */
+  --text-def-color: #000;
+  --text-sec-color: rgb(102 102 102 / 90%);
+  --primary-color: #0071de;
+  /* 背景 */
+  --def-bgColor: #fff;
+  --sec-bgColor: #f5f5f5;
+  --hover-bgColor: #e9e8e8;
+  /* 边框 */
+  --border-width: 1px;
+  --border-color: #e9e8e8;
+
+  /* 元素 */
+  --upload-height: 200px
+}
+
+
+html.dark {
+  /* 字体 */
+  --text-def-color: #fff;
+  --text-sec-color: rgb(255 255 255 / 90%);
+  --primary-color: #0071de;
+  /* 背景 */
+  --def-bgColor: #1d232a;
+  --sec-bgColor: #191e24;
+  --hover-bgColor: rgb(166 173 186 / 10%);
+  /* 边框 */
+  --border-width: 1px;
+  --border-color: #444;
+
+}
+
+body {
+  background-color: var(--def-bgColor);
+}
+
+/* 预置样式 */
+
+.def-color {
+  color: var(--text-def-color);
+}
+
+.def-bgColor {
+  background-color: var(--def-bgColor);
+}
+
+.sec-bgColor {
+  background-color: var(--sec-bgColor);
+}
+
+.border-right {
+  border-right: var(--border-width) solid var(--border-color);
+}
+
+.border-bottom {
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.border-top {
+  border-top: var(--border-width) solid var(--border-color);
+}
