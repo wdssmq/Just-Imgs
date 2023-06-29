@@ -16,6 +16,7 @@
 - 用户名密码会保存在浏览器 localStorage 中；
 - \--------------
 - Worker 可以直接执行 `npm run deploy` 进行部署，前端这边可以打包后传 GitHub Pages 或者 Cloudflare Pages；
+    - 部署至 Cloudflare Pages 时需要设置 `VITE_CF_WORKER_URL=http://Worker 服务地址/` 和 `NODE_VERSION=18.16.1` 两个环境变量；
 - 吐槽：见过几个项目带 `netlify.toml` 了，然而就没感觉没啥存在感；
 
 ## 截图
