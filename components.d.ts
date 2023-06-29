@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Fancybox: typeof import('./src/components/Fancybox.vue')['default']
     ImagesList: typeof import('./src/components/ImagesList.vue')['default']
     Left: typeof import('./src/components/Left.vue')['default']
     Login: typeof import('./src/components/Login.vue')['default']

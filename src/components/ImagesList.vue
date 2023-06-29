@@ -25,23 +25,25 @@ function GetMarkdownText(url: string, text: string) {
 </script>
 
 <template>
-  <div class="img-list">
+  <Fancybox :options="{
+    Carousel: {
+      infinite: false,
+    },
+  }" :class="'img-list'">
     <div v-for="item in images_list.data" :key="`${item.key}`" class="img-item flex flex-col items-center justify-center">
-      <a class="img-image" :href="item.url"><img :src="item.url"></a>
+      <a class="img-image" data-fancybox="gallery" :href="item.url"><img :src="item.url"></a>
       <div class="img-info">
         <div class="key">
           {{ item.key }}
         </div>
         <div class="copy-box">
-          <span
-            class="copy-btn" :data-clipboard-text="GetMarkdownText(item.url, item.key)"
-            @click="CopyText()"
-          >Markdown</span>
+          <span class="copy-btn" :data-clipboard-text="GetMarkdownText(item.url, item.key)"
+            @click="CopyText()">Markdown</span>
           <span class="copy-btn" :data-clipboard-text="item.url" @click="CopyText()">Url</span>
         </div>
       </div>
     </div>
-  </div>
+  </Fancybox>
 </template>
 
 <style lang="scss" scoped>
