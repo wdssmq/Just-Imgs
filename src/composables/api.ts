@@ -38,9 +38,10 @@ class Api {
   }
 
   // 获取列表
-  async list() {
+  async list(hash = '') {
     const self = this
-    const { data } = await useFetch(self.urlBase, {
+    const url = `${self.urlBase}?hash=${hash}`
+    const { data } = await useFetch(url, {
       afterFetch: ctx => self.afterFetch(ctx),
     }).get().json()
     return data

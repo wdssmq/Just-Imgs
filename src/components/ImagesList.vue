@@ -9,7 +9,8 @@ const images_list = ref({
 })
 
 function GetList() {
-  api.list().then((res) => {
+  const hash = lsObj.getTimestamp().toString(36)
+  api.list(hash).then((res) => {
     // console.log(res.value)
     images_list.value = res.value
   })

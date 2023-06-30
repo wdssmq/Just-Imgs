@@ -41,4 +41,12 @@ export const lsObj = {
       pass: '',
     })
   },
+  // 保存时间戳
+  saveTimestamp(timestamp: number = Date.now()) {
+    this.setItem('timestamp', timestamp)
+  },
+  // 获取时间戳
+  getTimestamp() {
+    return this.getItem('timestamp', 0)
+  },
 }

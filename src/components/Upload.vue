@@ -101,18 +101,19 @@ function uploadImage(image: UploadImage, e: Event) {
   }
 
   api.setUser(user, pass).upload(data).then(({ data }) => {
-    if (data.value?.ok)
+    if (data.value?.ok) {
       button.innerText = '已上传'
+      lsObj.saveTimestamp()
+    }
 
-    else
-      button.innerText = data.value?.msg || '上传失败'
+    else { button.innerText = data.value?.msg || '上传失败' }
     upload_loading.value = false
   })
 }
 </script>
 
 <template>
-  <div class="upload-modal border-right sec-bgColor" :class="{ isOpen: props.isOpen }">
+  <div class="upload-modal sec-bgColor border-right" :class="{ isOpen: props.isOpen }">
     <div
       class="upload-area def-bgColor relative" :class="{
         isLoading: upload_loading,
