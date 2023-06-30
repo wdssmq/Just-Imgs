@@ -12,7 +12,7 @@ function checkLogin() {
   if (user && pass) {
     loginInfo.user = user
     loginInfo.pass = pass
-    // loginInfo.isLogin = true
+    loginInfo.isLogin = true
   }
   else {
     loginInfo.isLogin = false
