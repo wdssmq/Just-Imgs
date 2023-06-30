@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+
 const router = useRouter()
 const showUpload = ref(false)
+const showLeft = ref(true)
+const fixedLeft = ref(false)
+
 function toggleUpload() {
   // 切换上传组件的显示状态
   showUpload.value = !showUpload.value
@@ -8,10 +13,18 @@ function toggleUpload() {
 function goPath(path = '/') {
   router.push(path)
 }
+
+onMounted(() => {
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isMobile = breakpoints.smaller('sm')
+  fixedLeft.value = isMobile.value
+  if (isMobile.value)
+    showLeft.value = false
+})
 </script>
 
 <template>
-  <div class="app-left border-right">
+  <div class="app-left border-right" :class="{ 'left-hide': !showLeft, 'left-fixed': fixedLeft }">
     <div class="header border-bottom">
       <div class="logo justify-content-center flex" title="Just Imgs" @click="goPath()">
         Just<span>Imgs</span>
@@ -31,6 +44,12 @@ function goPath(path = '/') {
         </li>
       </ul>
     </div>
+    <!-- 固定在页面的切换侧栏按钮 -->
+    <div class="menu-fixed">
+      <a href="javascript:;" icon-btn @click="showLeft = !showLeft">
+        <span i-carbon-menu />
+      </a>
+    </div>
   </div>
   <Upload :is-open="showUpload" />
 </template>
@@ -39,6 +58,7 @@ function goPath(path = '/') {
 .app-left {
   --app-left-width: 200px;
   width: var(--app-left-width);
+  min-width: var(--app-left-width);
   height: 100vh;
 
   .header {
@@ -87,6 +107,43 @@ function goPath(path = '/') {
         color: var(--text-def-color);
         background: var(--hover-bgColor);
       }
+    }
+  }
+
+  &.left-hide {
+    position: fixed;
+    left: calc(-1 * var(--app-left-width));
+  }
+
+  &.left-fixed {
+    position: fixed;
+    z-index: 13;
+    background-color: var(--def-bgColor);
+  }
+
+  &.left-hide .menu-fixed {
+    left: 0;
+  }
+
+  .menu-fixed {
+    position: fixed;
+    top: 0px;
+    z-index: 13;
+    left: var(--app-left-width);
+    color: var(--text-def-color);
+    border-radius: 4px;
+    margin-left: 4px;
+    margin-top: 4px;
+
+    a:hover {
+      color: var(--text-sec-color);
+      background: var(--hover-bgColor);
+    }
+
+    span {
+      display: block;
+      width: 40px;
+      height: 40px;
     }
   }
 
