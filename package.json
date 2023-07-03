@@ -10,7 +10,7 @@
     "test": "vitest",
     "up": "taze major -I",
     "init:env": "cp .env.sample .env.dev.local && cp .env.sample .env.local",
-    "postinstall": "npm run init:env"
+    "postinstall": "npm run init:env && npx simple-git-hooks"
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.19",
