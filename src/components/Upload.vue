@@ -13,7 +13,7 @@ interface UploadImage {
   sizeStr: string
   type: string
   base64: string
-  // folder: string
+  folder: string
 }
 
 const upload_list = ref<UploadImage[]>([])
@@ -33,6 +33,7 @@ async function uploadAdd(files: FileList) {
   const promises = []
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
+    const folder = file.webkitRelativePath?.split('/')[0]
     const promise = new Promise((resolve, reject) => {
       const reader = new FileReader()
       reader.readAsDataURL(file)
@@ -44,7 +45,7 @@ async function uploadAdd(files: FileList) {
           sizeStr: GetFileSize(file.size),
           type: file.type,
           base64: base64 as string,
-          // folder: folder.value,
+          folder,
         }
         resolve(image)
       }
@@ -68,6 +69,7 @@ async function uploadAdd(files: FileList) {
   }
 }
 
+// 选择文件或文件夹后触发
 function uploadPicked(e: Event) {
   const input = e.target as HTMLInputElement
   const files = input.files
@@ -110,6 +112,11 @@ function uploadImage(image: UploadImage, e: Event) {
     upload_loading.value = false
   })
 }
+
+// 封装一个函数，用于拼接待上传图片的信息
+function getUploadImageInfo(item: UploadImage) {
+  return `${item.folder} / ${item.name} / ${item.sizeStr}`.replace(/^[\s/]+/, '')
+}
 </script>
 
 <template>
@@ -119,10 +126,18 @@ function uploadImage(image: UploadImage, e: Event) {
         isLoading: upload_loading,
       }"
     >
-      <label class="upload-box flex flex-col items-center justify-center">
+      <label class="upload-box file flex flex-col items-center justify-center">
         <div class="upload-icon" v-html="uploadSvg" />
         点击或拖拽文件到此处上传
         <input type="file" class="upload-file" name="upload-file" accept="image/*" multiple hidden @change="uploadPicked">
+      </label>
+      <hr class="border-top">
+      <label class="upload-box folder button" flex items-center justify-center>
+        上传文件夹
+        <input
+          type="file" class="upload-folder" name="upload-folder" webkitdirectory webkitrelativepath hidden
+          @change="uploadPicked"
+        >
       </label>
       <div :class="{ loading: upload_loading }" />
     </div>
@@ -132,10 +147,7 @@ function uploadImage(image: UploadImage, e: Event) {
       </div>
       <div v-for="item in upload_list" :key="item.name" class="upload-item flex justify-between p-3">
         <div class="info-wrap flex flex-col justify-center">
-          <div class="info">
-            {{ `${item.name}` }} / {{ `${item.sizeStr}` }}
-            <!-- {{ `${item.type}` }} -->
-          </div>
+          <div class="info" v-text="getUploadImageInfo(item)" />
           <div class="act">
             <button class="text-sm btn" @click="uploadImage(item, $event)">
               上传
@@ -174,13 +186,23 @@ function uploadImage(image: UploadImage, e: Event) {
     transition: all .15s;
 
     &:hover {
-      color: var(--primary-color);
       border: 3px dashed var(--primary-color);
     }
 
     .upload-box {
-      height: var(--upload-height);
-      box-sizing: border-box;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+
+      &.file {
+        height: var(--upload-height);
+      }
+
+      &.folder {
+        height: 2.3em;
+      }
     }
 
     .upload-icon {
