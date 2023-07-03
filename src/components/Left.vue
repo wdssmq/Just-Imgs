@@ -39,13 +39,14 @@ onMounted(() => {
         <li><a href="javascript:;" @click="goPath('/')">首页</a></li>
         <li><a href="javascript:;" @click="toggleUpload()">上传</a></li>
         <li><a href="javascript:;" @click="goPath('/about')">关于</a></li>
-        <li>
-          <a href="javascript:;" icon-btn @click="toggleDark()"><span i-carbon-sun dark:i-carbon-moon /></a>
+        <li flex-row>
+          <a grow href="javascript:;" icon-btn @click="toggleDark()"><span i-carbon-sun dark:i-carbon-moon /></a>
+          <a grow href="javascript:;" icon-btn @click="showLeft = !showLeft"><span i-carbon-menu /></a>
         </li>
       </ul>
     </div>
     <!-- 固定在页面的切换侧栏按钮 -->
-    <div class="menu-fixed">
+    <div v-show="!showLeft" class="menu-fixed">
       <a href="javascript:;" icon-btn @click="showLeft = !showLeft">
         <span i-carbon-menu />
       </a>
@@ -127,7 +128,7 @@ onMounted(() => {
 
   .menu-fixed {
     position: fixed;
-    top: 0px;
+    bottom: 0px;
     z-index: 13;
     left: var(--app-left-width);
     color: var(--text-def-color);
@@ -142,8 +143,8 @@ onMounted(() => {
 
     span {
       display: block;
-      width: 40px;
-      height: 40px;
+      width: 37px;
+      height: 37px;
     }
   }
 
