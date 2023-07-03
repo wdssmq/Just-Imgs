@@ -32,7 +32,7 @@ function GetMarkdownText(url: string, text: string) {
     },
   }" :class="'img-list'">
     <div v-for="item in images_list.data" :key="`${item.key}`" class="img-item flex flex-col items-center justify-center">
-      <a class="img-image" data-fancybox="gallery" :href="item.url"><img :src="item.url"></a>
+      <a class="img-image" data-fancybox="gallery" :href="item.url" :title="item.key"><img :src="item.url" :title="item.key" :alt="item.key"></a>
       <div class="img-info">
         <div class="key">
           {{ item.key }}
