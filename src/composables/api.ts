@@ -49,6 +49,8 @@ class Api {
 
   // 拼接对象地址，参数为 key
   conatct(key: string) {
+    // 转义 / 为 %2F
+    key = key.replace(/\//g, '%2F')
     return `${this.urlBase}${key}`
   }
 
