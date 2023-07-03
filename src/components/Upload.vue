@@ -93,12 +93,16 @@ function uploadImage(image: UploadImage, e: Event) {
     button.innerText = '请先设置用户名和密码'
     return
   }
+  // 如果有 folder 属性，则拼接
+  const _name = (image: UploadImage) => {
+    return image.folder ? `${image.folder}/${image.name}` : image.name
+  }
 
   button.disabled = true
   button.innerText = '上传中...'
   upload_loading.value = true
   const data = {
-    name: image.name,
+    name: _name(image),
     body: image.base64,
   }
 
