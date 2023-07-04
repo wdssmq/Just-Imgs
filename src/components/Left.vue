@@ -1,15 +1,39 @@
 <script setup lang="ts">
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { GetVh } from '~/composables'
 
 const router = useRouter()
 const showUpload = ref(false)
 const showLeft = ref(true)
 const fixedLeft = ref(false)
 
+// 手机端 vh 适配
+const appLeft = ref<HTMLElement | null>(null)
+const vhSize = useCssVar('--vhSize', appLeft, { initialValue: GetVh() })
+
+// 更新 vhSize
+async function setVhSize(init = false) {
+  vhSize.value = GetVh()
+  if (init) {
+    await nextTick()
+    // ----------------------
+    const elAppLeft = appLeft.value as HTMLElement
+    elAppLeft.style.setProperty('--vhSize', vhSize.value)
+  }
+}
+
+// 监听窗口大小变化
+useEventListener(window, 'resize', () => {
+  setVhSize()
+})
+
+// 展开/收起上传组件
 function toggleUpload() {
   // 切换上传组件的显示状态
   showUpload.value = !showUpload.value
 }
+
+// 路由跳转
 function goPath(path = '/') {
   router.push(path)
 }
@@ -20,11 +44,12 @@ onMounted(() => {
   fixedLeft.value = isMobile.value
   if (isMobile.value)
     showLeft.value = false
+  setVhSize(true)
 })
 </script>
 
 <template>
-  <div class="app-left border-right" :class="{ 'left-hide': !showLeft, 'left-fixed': fixedLeft }">
+  <div ref="appLeft" class="app-left border-right" :class="{ 'left-hide': !showLeft, 'left-fixed': fixedLeft }">
     <div class="header border-bottom">
       <div class="logo justify-content-center flex" title="Just Imgs" @click="goPath()">
         Just<span>Imgs</span>
@@ -119,7 +144,9 @@ onMounted(() => {
   &.left-fixed {
     position: fixed;
     z-index: 13;
+    transition: height .3s ease-in-out;
     background-color: var(--def-bgColor);
+    height: calc(var(--vhSize, 1vh) * 100);
   }
 
   &.left-hide .menu-fixed {

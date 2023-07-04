@@ -14,6 +14,12 @@ export function GetFileSize(size: number): string {
   return `${size.toFixed(2)} ${units[i]}`
 }
 
+// 自动获取 1vh 的值
+export function GetVh(): string {
+  const vh = window.innerHeight * 0.01
+  return `${vh}px`
+}
+
 // localStorage 封装
 export const lsObj = {
   setItem(key: string, value: any) {
